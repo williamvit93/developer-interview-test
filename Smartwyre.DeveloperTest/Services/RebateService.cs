@@ -27,7 +27,7 @@ public sealed class RebateService : IRebateService
         Rebate rebate = await _rebateRepository.GetRebate(request.RebateIdentifier);
         Product product = await _productRepository.GetProduct(request.ProductIdentifier);
 
-        if (rebate is null)
+        if (rebate is null || product is null)
             return new CalculateRebateResult { Success = false };
 
         var calculator = _calculators.FirstOrDefault(c => c.SupportedIncentive == rebate.Incentive);
