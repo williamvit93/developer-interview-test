@@ -1,4 +1,4 @@
-﻿using Smartwyre.DeveloperTest.Types;
+﻿using Smartwyre.DeveloperTest.Domain.Types;
 using System.Threading.Tasks;
 
 namespace Smartwyre.DeveloperTest.Data.Interfaces
@@ -6,6 +6,6 @@ namespace Smartwyre.DeveloperTest.Data.Interfaces
     public interface IRebateRepository
     {
         Task<Rebate> GetRebate(string rebateIdentifier);
-        Task StoreCalculationResult(Rebate account, decimal rebateAmount);
+        Task StoreCalculationResult(Rebate rebate, decimal amount);
     }
 }

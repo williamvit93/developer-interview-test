@@ -1,4 +1,4 @@
-﻿using Smartwyre.DeveloperTest.Types;
+﻿using Smartwyre.DeveloperTest.Domain.Types;
 using System.Threading.Tasks;
 
 namespace Smartwyre.DeveloperTest.Services.Interfaces;
