@@ -1,17 +1,24 @@
-﻿using Smartwyre.DeveloperTest.Data;
+﻿using Smartwyre.DeveloperTest.Data.Interfaces;
+using Smartwyre.DeveloperTest.Services.Interfaces;
 using Smartwyre.DeveloperTest.Types;
+using System.Threading.Tasks;
 
 namespace Smartwyre.DeveloperTest.Services;
 
 public class RebateService : IRebateService
 {
-    public CalculateRebateResult Calculate(CalculateRebateRequest request)
+    private readonly IRebateRepository _rebateRepository;
+    private readonly IProductRepository _productRepository;
+    public RebateService(IRebateRepository rebateRepository, IProductRepository productRepository)
     {
-        var rebateDataStore = new RebateDataStore();
-        var productDataStore = new ProductDataStore();
+        _rebateRepository = rebateRepository;
+        _productRepository = productRepository;
+    }
 
-        Rebate rebate = rebateDataStore.GetRebate(request.RebateIdentifier);
-        Product product = productDataStore.GetProduct(request.ProductIdentifier);
+    public async Task<CalculateRebateResult> Calculate(CalculateRebateRequest request)
+    {
+        Rebate rebate = await _rebateRepository.GetRebate(request.RebateIdentifier);
+        Product product = await _productRepository.GetProduct(request.ProductIdentifier);
 
         var result = new CalculateRebateResult();
 
@@ -90,8 +97,7 @@ public class RebateService : IRebateService
 
         if (result.Success)
         {
-            var storeRebateDataStore = new RebateDataStore();
-            storeRebateDataStore.StoreCalculationResult(rebate, rebateAmount);
+            await _rebateRepository.StoreCalculationResult(rebate, rebateAmount);
         }
 
         return result;
